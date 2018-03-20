@@ -24,7 +24,6 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
@@ -36,42 +35,69 @@ export const constantRouterMap = [
       component: () => import('@/views/dashboard/index')
     }]
   },
-
   {
-    path: '/example',
+    path: '/account',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/account/qcount',
+    name: '记账',
+    meta: { title: '记账', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'qcount',
+        name: '吃饱饱',
+        component: () => import('@/views/account/qcount'),
+        meta: { title: '吃饱饱', icon: 'table' }
+      },
+     {
+        path: 'pcount',
+        name: '清蒸庄园',
+        component: () => import('@/views/account/pcount'),
+        meta: { title: '清蒸庄园', icon: 'plant1' }
+      }
+    ]
+  },
+  {
+    path: '/total',
+    component: Layout,
+    redirect: '/total/plant',
+    name: '统计',
+    meta: { title: '统计', icon: 'tree2' },
+    children: [
+      {
+        path: 'plant',
+        name: '植物管理',
+        component: () => import('@/views/total/plant'),
+        meta: { title: '植物管理', icon: 'flower' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'address',
+        name: '地址管理',
+        component: () => import('@/views/total/address'),
+        meta: { title: '地址管理', icon: 'home' }
       }
     ]
   },
-
   {
-    path: '/form',
+    path: '/manager',
     component: Layout,
+    redirect: '/manager/user',
+    name: '管理中心',
+    meta: { title: '管理中心', icon: 'tree' },
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        path: 'user',
+        name: '用户中心',
+        component: () => import('@/views/manager/user'),
+        meta: { title: '用户中心', icon: 'user' }
+      },
+      {
+        path: 'dict',
+        name: '字典管理',
+        component: () => import('@/views/manager/dict'),
+        meta: { title: '字典管理', icon: 'book_opened' }
       }
     ]
   },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
 
