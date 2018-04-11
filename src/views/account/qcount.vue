@@ -92,6 +92,8 @@
     <el-table-column
       prop="date"
       label="日期" 
+      type="date"
+      value-format="yyyy-MM-dd"
       sortable>
     </el-table-column>
     <el-table-column

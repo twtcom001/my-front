@@ -1,7 +1,19 @@
 <template>
 <div>
+
 <div>
-<button type="button" class="el-button filter-item el-button--primary el-button--medium" style="margin-left: 10px;" @click="dialogFormVisible = true"><!----><i class="el-icon-edit"></i><span>添加</span></button>
+<el-row>
+<el-col :span="22">
+  <el-input placeholder="请输入内容" v-model="input5" >
+    <el-button slot="append" icon="el-icon-search" @click="keysEdit"></el-button>
+  </el-input>
+  </el-col>
+  <el-col :span="2">
+  <el-button @click="dialogFormVisible = true"><i class="el-icon-edit"></i>添加</el-button>
+  </el-col>
+</el-row>
+</div>
+<div>
 <el-dialog title="新增" :visible.sync="dialogFormVisible">
   <el-form :model="form">
     <el-form-item label="父节点" :label-width="formLabelWidth">
@@ -102,6 +114,7 @@ import { getDict, addDict, editDict,delDict } from '@/api/dict'
                 dialogForm1Visible: false,
                 currentPage: 1,
                 pageSize: 10,
+                keys:'',
                 form: {
                   father: '',
                   key: '',
@@ -118,10 +131,13 @@ import { getDict, addDict, editDict,delDict } from '@/api/dict'
             }
         },
         created(){ 
-            this.getData(this.currentPage,this.pageSize);
+            this.getData(this.currentPage, this.pageSize, this.keys);
         },
         methods:{
-
+            keysEdit(){
+              this.keys= this.input5;
+              this.getData(this.currentPage, this.pageSize, this.keys);
+            },
             onSubmit() {
                 console.log(this.form);
                 addDict(this.form).then((response) => {
@@ -151,9 +167,9 @@ import { getDict, addDict, editDict,delDict } from '@/api/dict'
                 });
                 
             },
-            getData(page,size){
+            getData(page, size, keys ){
               console.log(page)
-              getDict({'page':page,'size':size  }).then((res) => {
+              getDict({'page':page,'size':size, 'keys':keys }).then((res) => {
                 //console.log(res.data);
                 this.tableData = res.data.list;
                 this.pageTotal = res.data.total;
@@ -185,13 +201,13 @@ import { getDict, addDict, editDict,delDict } from '@/api/dict'
             },
             handleSizeChange(val) {
               console.log(`每页 ${val} 条${this.currentPage}页`);
-              this.$options.methods.getData.bind(this)(this.currentPage,val);
+              this.$options.methods.getData.bind(this)(this.currentPage, val, this.keys );
             },
             handleCurrentChange(val) {
               //作用域 绑定 this
               console.log(this.pageSize);
               console.log(val);
-              this.$options.methods.getData.bind(this)(val,this.pageSize);
+              this.$options.methods.getData.bind(this)(val, this.pageSize, this.keys);
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')
